@@ -119,7 +119,7 @@ body {
   margin-top: -600px; 
   margin-bottom: 20px;
   width: 15rem;
-  box-shadow: 2px solid rgb(0, 8, 255);
+  box-shadow: 2px solid rgb(0, 149, 255);
   overflow: hidden;
 }
 .card-img-top {
@@ -143,20 +143,29 @@ body {
   transition: all 0.3s ease;
 }
 .add-to-cart.btn {
-  background-color: rgb(0, 8, 255);
-  border-color: rgb(0, 8, 255); /* Para que el borde también sea naranja */
-  color: white; /* Para asegurar que el texto sea legible */
-}
-.btn-primary {
-  background-color: rgb(0, 8, 255);
-  border-color: rgb(0, 8, 255); /* Para que el borde también sea naranja */
+  background-color: rgb(0, 149, 255);
+  border-color: rgb(0, 149, 255); /* Para que el borde también sea naranja */
   color: white; /* Para asegurar que el texto sea legible */
 }
 
 .card-block .add-to-cart:hover {
-  background-color: rgb(10, 0, 199); /* Color de fondo más oscuro al pasar el mouse */
+  background-color: rgb(0, 108, 186); /* Color de fondo más oscuro al pasar el mouse */
+}
+.btn-warning {
+  background-color: rgb(0, 149, 255) !important;
+  color: #ffffff; /* Color del texto */
+  border-color:rgb(0, 149, 255) !important;
+  transition: background-color 0.3s ease; 
 }
 
+.btn-warning:hover {
+  background-color: rgb(0, 108, 186)!important;
+  color: #ffffff;
+}
+.btn-warning:focus,
+.btn-warning:active {
+  outline: 2px solid rgb(0, 108, 186)!important;
+}
  /* Dropdown bar estilo */
  .dropdown-menu {
   background-color: #333; /* Color de fondo */
