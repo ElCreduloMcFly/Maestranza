@@ -44,34 +44,6 @@
         }
     </style>
 
-<script>
-    function mostrarInfoEquipo() {
-        var selectEquipo = document.getElementById('Equiposa');
-        var infoEquipo = document.getElementById('infoEquipo');
-
-        // Obtener el equipo seleccionado
-        var equipoId = selectEquipo.value;
-
-        // Aquí puedes hacer una solicitud AJAX para obtener la información del equipo desde tu backend
-        // En este ejemplo, simulamos la información del equipo
-        var nombreEquipo = "Equipo de Prueba";
-        var nombreProyecto = "Proyecto Ejemplo";
-        var nombreLider = "Líder del Equipo";
-        var integrantes = ["Integrante 1", "Integrante 2", "Integrante 3"];
-
-        // Mostrar la información del equipo seleccionado
-        infoEquipo.innerHTML = `
-            <h2>${nombreEquipo}</h2>
-            <p><strong>Nombre del Equipo:</strong> ${nombre_equipo}</p>
-            <p><strong>Nombre del Proyecto:</strong> ${nombre_proyecto}</p>
-            <p><strong>Líder del Equipo:</strong> ${nombre_lider}</p>
-            <p><strong>Integrantes:</strong></p>
-            <ul>
-                ${integrantes.map(integrante => `<li>${integrante}</li>`).join('')}
-            </ul>
-        `;
-    }
-</script>
 </head>
 <body ng-controller="inventarioController">
     <header>
@@ -107,23 +79,60 @@
         </nav>
     </header>
 
-        <div class="container-fluid">
+    <div class="container-fluid">
+
+        <div class="col-xs-12 col-sm-6">
+            <h1>Equipos Actuales</h1>
             <div class="container">
-                <h1>Equipos de Trabajo</h1>
-                <label for="Equipos">Selecciona un Equipo:</label>
-                <select id="Equiposa" name="equipo" onchange="mostrarInfoEquipo()">
-                    <option value="">Selecciona el Equipo</option>
-                    {% for equipo in equipos %}
-                        <option value="{{ equipo.id_equipo }}">{{ equipo.nombre_equipo }}</option>
-                    {% endfor %}
-                </select>
+                <div class="body-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel z-depth-1">
+                                <div class="panel-content">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table id="dataTable" class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nombre Equipo</th>   
+                                                            <th>Nombre Proyecto</th>                                                          
+                                                            <th>Lider de equipo</th>
+                                                            <th>Integrantes</th>                                                                              
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for equipo in equipos %}
+                                                        <tr>
+                                                            <td>{{equipo.nombre_equipo }}</td>
+                                                            <td>{{equipo.nombre_proyecto }}</td>
+                                                            <td>{{equipo.lider_proyecto.nombre_usu }}</td>
+                                                            <td>
+                                                                <div>{{equipo.integrante_1.nombre_usu }}</div>
+                                                                <div>{{equipo.integrante_2.nombre_usu }}</div>
+                                                                <div>{{equipo.integrante_3.nombre_usu }}</div>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-danger">
+                                                                    <a href="{% url 'eliminarequipo' equipo.id_equipo %}">Eliminar</a>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    
-        <div id="infoEquipo" class="container">
-            <!-- Aquí se mostrará la información del equipo seleccionado -->
-        </div>
-    
-    
+    </div>
+</div>
+      
 </body>
 </html>
