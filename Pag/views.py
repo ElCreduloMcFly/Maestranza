@@ -86,7 +86,7 @@ def registrar(request):
     user = User.objects.create_user(username = correoU,
                                     email= correoU,
                                     password= contrasenaU)
-    if "@ferremax.com" in correoU:
+    if "@maestranza.com" in correoU:
         user.is_staff = True    
         roluser = rol.objects.get(nombre_rol = "Administrador")
     else:
