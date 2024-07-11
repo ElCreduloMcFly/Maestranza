@@ -83,56 +83,14 @@ def registrar(request):
     telefonoU = request.POST['telefono']
     preguntaU = request.POST['pregunta']
     respuestaU = request.POST['rs']
-
-    # Función de validación de RUT integrada
-    def validar_rut(rut):
-        try:
-            # Obtener número y dígito verificador
-            numero, digito_verificador = rut[:-1], rut[-1]
-                
-            # Convertir el número a una lista de enteros
-            numero = list(map(int, numero))
-                
-            # Definir los multiplicadores
-            multiplicadores = [2, 3, 4, 5, 6, 7]
-                
-            # Calcular la suma ponderada
-            suma = 0
-            multiplicador_index = 0
-            for n in reversed(numero):
-                suma += n * multiplicadores[multiplicador_index]
-                multiplicador_index = (multiplicador_index + 1) % len(multiplicadores)
-                
-            # Calcular el resto de la suma
-            resto = suma % 11
-            resultado = 11 - resto
-                
-            # Determinar el dígito verificador
-            if resultado == 11:
-                digito_calculado = "0"
-            elif resultado == 10:
-                digito_calculado = "K"
-            else:
-                digito_calculado = str(resultado)
-                
-                # Comparar el dígito verificador calculado con el proporcionado
-            return digito_calculado.upper() == digito_verificador.upper()
-        except:
-            return False
-        
-    # Verificar si el RUT es válido
-    if not validar_rut(rutU):
-        return render(request, 'rut_valido.html')
-
-    # Verificar si el correo electrónico ya está registrado
     
     if User.objects.filter(email=correoU).exists():
-        return render(request, 'correo_registrado.html')  # Renderiza la plantilla con el modal
-    
+        return render(request, 'correo_registrado.html')
 
     user = User.objects.create_user(username = correoU,
                                     email= correoU,
                                     password= contrasenaU)
+    
     if "@maestranza.com" in correoU:
         user.is_staff = True    
         roluser = rol.objects.get(nombre_rol = "Administrador")
@@ -256,45 +214,6 @@ def agregartrabajador(request):
     if User.objects.filter(email=correoT).exists():
         return render(request, 'correo_registrado.html')
     
-    # Función de validación de RUT integrada
-    def validar_rut(rut):
-        try:
-            # Obtener número y dígito verificador
-            numero, digito_verificador = rut[:-1], rut[-1]
-                
-            # Convertir el número a una lista de enteros
-            numero = list(map(int, numero))
-                
-            # Definir los multiplicadores
-            multiplicadores = [2, 3, 4, 5, 6, 7]
-                
-            # Calcular la suma ponderada
-            suma = 0
-            multiplicador_index = 0
-            for n in reversed(numero):
-                suma += n * multiplicadores[multiplicador_index]
-                multiplicador_index = (multiplicador_index + 1) % len(multiplicadores)
-                
-            # Calcular el resto de la suma
-            resto = suma % 11
-            resultado = 11 - resto
-                
-            # Determinar el dígito verificador
-            if resultado == 11:
-                digito_calculado = "0"
-            elif resultado == 10:
-                digito_calculado = "K"
-            else:
-                digito_calculado = str(resultado)
-                
-                # Comparar el dígito verificador calculado con el proporcionado
-            return digito_calculado.upper() == digito_verificador.upper()
-        except:
-            return False
-        
-    # Verificar si el RUT es válido
-    if not validar_rut(rutT):
-        return render(request, 'rut_valido.html')
     
     user = User.objects.create_user(username = correoT,
                                     email= correoT,
