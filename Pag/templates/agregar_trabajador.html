@@ -8,11 +8,11 @@
 </head>
 <body>
     <h1>Agregar Nuevo Trabajador</h1>
-    <form method="post" action="{% url 'agregartrabajador' %}" enctype="multipart/form-data">
+    <form method="post" action="{% url 'agregartrabajador' %}" enctype="multipart/form-data" onsubmit="return validarRut()">
         {% csrf_token %}
         <!-- Campos para ingresar los datos del trabajador -->
         <label for="rut">RUT:</label>
-        <input type="text" id="rut" name="rut" required><br>
+        <input type="text" id="rut" name="rut" placeholder="Ingresar el Rut sin puntos pero con guion" required><br>
 
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required><br>
@@ -46,7 +46,59 @@
         </select><br>
 
         <button type="submit">Agregar Trabajador</button>
+
+
+        <p id="rutError" style="color: red; display: none;">El RUT ingresado no es válido.</p>
     </form>
+
+
+    <script>
+        function validarRut() {
+            var rut = document.getElementById('rut').value.trim();
+            console.log("RUT ingresado:", rut);
+    
+            // Validar formato básico del RUT (números y dígito verificador)
+            var regex = /^[0-9]+-[0-9kK]{1}$/;
+            if (!regex.test(rut)) {
+                console.log("Formato de RUT no válido.");
+                document.getElementById('rutError').style.display = 'block';
+                return false;
+            }
+    
+            // Validar RUT usando algoritmo
+            var cleanRut = rut.replace(/[\.\-]/g, '');  // Eliminar puntos y guiones
+            console.log("RUT limpio:", cleanRut);
+    
+            var dv = cleanRut.slice(-1).toUpperCase();  // Obtener dígito verificador
+            console.log("Dígito verificador ingresado:", dv);
+    
+            var rutNumber = parseInt(cleanRut.slice(0, -1), 10);  // Obtener parte numérica del RUT
+            console.log("Número de RUT:", rutNumber);
+    
+            var suma = 0;
+            var mul = 2;
+            for (var i = rutNumber.toString().length - 1; i >= 0; i--) {
+                suma = suma + rutNumber.toString().charAt(i) * mul;
+                mul++;
+                if (mul == 8) {
+                    mul = 2;
+                }
+            }
+    
+            var res = suma % 11;
+            var digitoVerificador = res == 0 ? 0 : 11 - res;
+            console.log("Dígito verificador calculado:", digitoVerificador);
+    
+            if (!(dv == digitoVerificador || (dv == 'K' && digitoVerificador == 10))) {
+                console.log("El RUT no es válido.");
+                document.getElementById('rutError').style.display = 'block';
+                return false;
+            }
+    
+            console.log("El RUT es válido.");
+            return true;
+        }
+    </script>
 
 </body>
 </html>

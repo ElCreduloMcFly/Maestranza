@@ -31,13 +31,3 @@ def chequeo_email(request):
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
     
-
-
-#API DE CREACION DE USUARIOS
-@api_view(['POST'])
-def creausuario(request):
-    serializer = UsuarioSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
