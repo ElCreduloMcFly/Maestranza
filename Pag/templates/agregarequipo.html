@@ -1,0 +1,55 @@
+<!-- agregar_trabajador.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar equipo de Trabajo</title>
+</head>
+<body>
+    <h1>Agregar Nuevo equipo de trabajo</h1>
+    <form id="formulario-trabajador">
+        <!-- Campos para ingresar los datos del Equipo de trabajo -->
+        <label for="equipo">Nombre Equipo:</label>
+        <input type="text" id="equipo" name="equipo" required><br>
+
+        <label for="proyecto">Nombre Proyecto:</label>
+        <input type="text" id="proyecto" name="proyecto" required><br>
+
+        <label for="lider">Lider de equipo</label>
+        <select id="lider" name="lider" required>
+            
+            {% for rol in roles %}
+            <option value="{{rol.id_rol}}">{{rol.nombre_rol}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Integrante1">Integrante 1</label>
+        <select id="Integrante1" name="Integrante1" required>
+            
+            {% for rol in roles %}
+            <option value="{{rol.id_rol}}">{{rol.nombre_rol}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Integrante2">Integrante 2</label>
+        <select id="Integrante2" name="Integrante2" required>
+            
+            {% for rol in roles %}
+            <option value="{{rol.id_rol}}">{{rol.nombre_rol}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Integrante3">Integrante 3</label>
+        <select id="Integrante3" name="Integrante3" required>
+           
+            {% for rol in roles %}
+            <option value="{{rol.id_rol}}">{{rol.nombre_rol}}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">Agregar Equipo de trabajo</button>
+    </form>
+    
+</body>
+</html>

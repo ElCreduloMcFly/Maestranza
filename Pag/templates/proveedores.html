@@ -48,7 +48,7 @@
     <header>
         <nav id="cssmenu">
             <div class="logo">
-                <a href="index.html">Maestranza-Administrador</a>
+                <a href="index.html">Administrador-Proveedores</a>
             </div>
             <div id="head-mobile"></div>
             <div class="button"></div>
@@ -56,35 +56,16 @@
                 <li>
                     <a href="javascript:void(0);">Inventario</a>
                     <ul>
-
                         <li><a href="{% url 'Vendedor' %}">Ver inventario actual</a></li>
-                        <li><a href="{% url 'mostrarcategoria' %}">Añadir Producto</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="javascript:void(0);">Trabajadores</a>
-                    <ul>
-                        <li><a href="{% url 'agregarEquipo' %}">Nuevo equipo de Trabajo</a></li>
-                        <li><a href="{% url 'mostrarnuevotrabajador' %}">Nuevo Trabajador</a></li>
-                        
                     </ul>
                 </li>
                 <li>
                     <a href="javascript:void(0);">Proveedores</a>
                     <ul>
-                        <li><a href="{% url 'Proveedor' %}">Ver Proveedores</a></li>
                         <li><a href="{% url 'agregarProv' %}">Añadir Proveedor</a></li>
                     </ul>
                 </li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
                 <li><a href="{% url 'finsesion' %}">Cerrar Sesion</a></li>
-
             </ul>
         </nav>
     </header>
@@ -92,7 +73,7 @@
     <div class="container-fluid">
 
             <div class="col-xs-12 col-sm-6">
-                <h1>Inventario actual</h1>
+                <h1>Proveedores actuales</h1>
                 <div class="container">
                     <div class="body-content">
                         <div class="row">
@@ -105,27 +86,22 @@
                                                     <table id="dataTable" class="table table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>Articulo</th>   
-                                                                <th>Precio</th>                                                          
-                                                                <th>Descripción</th>
-                                                                <th>Categoría</th>
-                                                                <th>Cantidad disponible</th>
+                                                                <th>Nombre Proveedor</th>   
+                                                                <th>Dirección Proveedor</th>                                                          
+                                                                <th>Correo Proveedor</th>
+                                                                <th>Contacto Proveedor</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {% for producto in productos %}
+                                                            {% for provedor in provedores %}
                                                             <tr>
-                                                                <td>{{ producto.nombre_prod }}</td>
-                                                                <td>{{ producto.precio }}</td>
-                                                                <td>{{ producto.descripcion }}</td>
-                                                                <td>{{ producto.id_categoria.nombre_categoria }}</td>
-                                                                <td>{{ producto.stock }}</td>
+                                                                <td>{{ provedor.nombre_prov }}</td>
+                                                                <td>{{ provedor.direccion_prov }}</td>
+                                                                <td>{{ provedor.correo }}</td>
+                                                                <td>{{ provedor.telefono }}</td>
                                                                 <td>
-                                                                    <button class="btn btn-default">
-                                                                        <a href="{% url 'mostrarproducto' producto.id_prod %}">Modificar</a>
-                                                                    </button>
                                                                     <button class="btn btn-danger">
-                                                                        <a href="{% url 'eliminarproducto' producto.id_prod %}">Eliminar</a>
+                                                                        <a href="">Eliminar</a>
                                                                     </button>
                                                                 </td>
                                                             </tr>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import mostrarhome,mostrarcarrito,mostrarherramientas,mostrarinicio,mostrarvendedor,iniciarsesion,registrar,finsesion,mostraragregar,agregarproducto,eliminarproducto,modificarproducto,mostrarproducto,mostrarnuevotrabajador,mostrarmenulogin
+from .views import mostrarhome,mostrarcarrito,mostrarherramientas,mostrarinicio,mostrarvendedor,iniciarsesion,registrar,finsesion,mostraragregar,agregarproducto,eliminarproducto,modificarproducto,mostrarproducto,mostrarnuevotrabajador,mostrarmenulogin,mostrarproveedor,mostrarproveedores,agregarequipo,agregarProveedor
 
 urlpatterns = [
     path('',mostrarhome,name="MenuPrincipal"),
@@ -8,6 +8,9 @@ urlpatterns = [
     path('Herramientas/',mostrarherramientas,name="Herramientas"),
     path('Inicio/',mostrarinicio,name="Sesion"),
     path('Vendedor/',mostrarvendedor,name="Vendedor"),
+    path('Proveedor/',mostrarproveedores,name="Proveedor"),
+    path('agregarProv/',mostrarproveedor,name="agregarProv"),
+    path('agregarEquipo/',agregarequipo,name="agregarEquipo"),
     path('MenuPrincipalLogin/',mostrarmenulogin,name="MenuPrincipalLogin"),
     path('mostrarproducto/',mostraragregar,name="mostrarcategoria"),
     path('mostrarnuevotrabajador/',mostrarnuevotrabajador,name="mostrarnuevotrabajador"),
@@ -15,7 +18,9 @@ urlpatterns = [
     path('registrar/',registrar,name="registrar"),
     path('finsesion/',finsesion, name='finsesion'),
     path('agregarproducto/',agregarproducto, name='agregarproducto'),
+    path('agregarprove/',agregarProveedor, name='agregarprove'),
     path('eliminarproducto/<id_prod>',eliminarproducto, name='eliminarproducto'),
     path('mostrarproducto/<int:id_prod>',mostrarproducto, name='mostrarproducto'),
     path('modificarproducto/<int:id_prod>',modificarproducto, name='modificarproducto'),
+
 ]

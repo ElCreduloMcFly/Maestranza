@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from .models import pregunta,usuario,rol,categoria,producto
+from .models import pregunta,usuario,rol,categoria,producto,proveedor
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login , logout
@@ -31,6 +31,14 @@ def mostrarvendedor(request):
     productos = producto.objects.all()
     return render(request,'inventarioAct.html',{'productos':productos})
 
+def mostrarproveedores(request):
+    proveedors = proveedor.objects.all()
+    return render(request,'proveedores.html',{'provedores':proveedors})
+
+def mostrarproveedor(request):
+    categorias = categoria.objects.all()
+    return render(request,'addProveedor.html',{'categorias':categorias})
+
 def mostraragregar(request):
     categorias = categoria.objects.all()
     return render(request,'addproducto.html',{'categorias':categorias})
@@ -40,6 +48,10 @@ def mostrarnuevotrabajador(request):
     roles = rol.objects.all()
     return render(request,'agregar_trabajador.html',{'preguntas':preguntas,'roles':roles})
 
+def agregarequipo(request):
+    categorias = categoria.objects.all()
+    return render(request,'agregarequipo.html',{'categorias':categorias})
+
 def mostrarmenulogin(request):
     productos = producto.objects.all()
     return render(request,'MenuPrincipallogin.html',{'productos':productos})
@@ -48,6 +60,8 @@ def mostrarproducto(request,id_prod):
     productos = producto.objects.get(id_prod=id_prod)
     categorias = categoria.objects.all()
     return render(request,'modificarproducto.html',{'productos':productos,'categorias':categorias})
+
+
 
 
 
@@ -165,3 +179,14 @@ def modificarproducto(request,id_prod):
     prod.save()
 
     return redirect('Vendedor')
+
+
+def agregarProveedor(request):
+    nombreProv = request.POST['nombre']
+    direProv = request.POST['direccion']
+    correoProv = request.POST['correo']
+    CelProv = request.POST['cel']
+
+    proveedor.objects.create(nombre_prov=nombreProv,direccion_prov=direProv,correo=correoProv,telefono=CelProv)
+
+    return redirect('Proveedor')
