@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es" ng-app="inventarioApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maestranza-Equipos</title>
+    <link rel="stylesheet" href="{% static 'css/inventarioAct.css' %}">
+    <link rel="stylesheet" href="{% static 'css/agregar.css' %}">
+    
+    <style>
+        /* Estilos para el modal (splash) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+
+<script>
+    function mostrarInfoEquipo() {
+        var selectEquipo = document.getElementById('Equiposa');
+        var infoEquipo = document.getElementById('infoEquipo');
+
+        // Obtener el equipo seleccionado
+        var equipoId = selectEquipo.value;
+
+        // Aquí puedes hacer una solicitud AJAX para obtener la información del equipo desde tu backend
+        // En este ejemplo, simulamos la información del equipo
+        var nombreEquipo = "Equipo de Prueba";
+        var nombreProyecto = "Proyecto Ejemplo";
+        var nombreLider = "Líder del Equipo";
+        var integrantes = ["Integrante 1", "Integrante 2", "Integrante 3"];
+
+        // Mostrar la información del equipo seleccionado
+        infoEquipo.innerHTML = `
+            <h2>${nombreEquipo}</h2>
+            <p><strong>Nombre del Equipo:</strong> ${nombre_equipo}</p>
+            <p><strong>Nombre del Proyecto:</strong> ${nombre_proyecto}</p>
+            <p><strong>Líder del Equipo:</strong> ${nombre_lider}</p>
+            <p><strong>Integrantes:</strong></p>
+            <ul>
+                ${integrantes.map(integrante => `<li>${integrante}</li>`).join('')}
+            </ul>
+        `;
+    }
+</script>
+</head>
+<body ng-controller="inventarioController">
+    <header>
+        <nav id="cssmenu">
+            <div class="logo">
+                <a href="index.html">Maestranza-Administrador</a>
+            </div>
+            <div id="head-mobile"></div>
+            <div class="button"></div>
+            <ul>
+                <li>
+                    <a href="javascript:void(0);">Inventario</a>
+                    <ul>
+                        <li><a href="{% url 'Vendedor' %}">Ver inventario actual</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Trabajadores</a>
+                    <ul>
+                        <li><a href="{% url 'agregarEquipo' %}">Nuevo equipo de Trabajo</a></li>
+                        <li><a href="{% url 'mostrarnuevotrabajador' %}">Nuevo Trabajador</a></li>  
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Proveedores</a>
+                    <ul>
+                        <li><a href="{% url 'Proveedor' %}">Ver Proveedores</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'finsesion' %}">Cerrar Sesion</a></li>
+
+            </ul>
+        </nav>
+    </header>
+
+        <div class="container-fluid">
+            <div class="container">
+                <h1>Equipos de Trabajo</h1>
+                <label for="Equipos">Selecciona un Equipo:</label>
+                <select id="Equiposa" name="equipo" onchange="mostrarInfoEquipo()">
+                    <option value="">Selecciona el Equipo</option>
+                    {% for equipo in equipos %}
+                        <option value="{{ equipo.id_equipo }}">{{ equipo.nombre_equipo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    
+        <div id="infoEquipo" class="container">
+            <!-- Aquí se mostrará la información del equipo seleccionado -->
+        </div>
+    
+    
+</body>
+</html>

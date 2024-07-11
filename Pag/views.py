@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from .models import pregunta,usuario,rol,categoria,producto,proveedor
+from .models import pregunta,usuario,rol,categoria,producto,proveedor,equipo
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate, login , logout
@@ -49,8 +49,19 @@ def mostrarnuevotrabajador(request):
     return render(request,'agregar_trabajador.html',{'preguntas':preguntas,'roles':roles})
 
 def agregarequipo(request):
-    categorias = categoria.objects.all()
-    return render(request,'agregarequipo.html',{'categorias':categorias})
+    # Filtra los roles permitidos para líderes
+    roles_lider = rol.objects.filter(nombre_rol__in=["Gerente de Proyectos", "Jefe de Producción"])
+    usuarios_lideres = usuario.objects.filter(rol_usu__in=roles_lider)
+    
+    # Filtra los roles permitidos para integrantes
+    rol_integrante = rol.objects.get(nombre_rol="Trabajador de Planta")
+    usuarios_integrantes = usuario.objects.filter(rol_usu=rol_integrante)
+    
+    return render(request, 'agregarequipo.html',{'usuarios_lideres': usuarios_lideres,'usuarios_integrantes': usuarios_integrantes})
+
+def mostrarequipos(request):
+    equipos = equipo.objects.all()
+    return render(request,'Equipos.html',{'equipos':equipos})
 
 def mostrarmenulogin(request):
     productos = producto.objects.all()
@@ -91,7 +102,7 @@ def registrar(request):
         roluser = rol.objects.get(nombre_rol = "Administrador")
     else:
         user.is_staff = False
-        roluser = rol.objects.get(nombre_rol = "Cliente")
+        roluser = rol.objects.get(nombre_rol = "Trabajador de Planta")
     registroPreg = pregunta.objects.get(id_preg = preguntaU)
     
     usuario.objects.create(rut_usu = rutU,nombre_usu = nombreU,correo_usu = correoU,
@@ -190,3 +201,61 @@ def agregarProveedor(request):
     proveedor.objects.create(nombre_prov=nombreProv,direccion_prov=direProv,correo=correoProv,telefono=CelProv)
 
     return redirect('Proveedor')
+
+def eliminarproveedor(request, id_prov):
+        eliminar = proveedor.objects.get(id_prov = id_prov)
+        eliminar.delete()
+        return redirect('Proveedor')
+
+def agregartrabajador(request):
+    rutT = request.POST['rut']
+    nombreT = request.POST['nombre']
+    correoT = request.POST['correo']
+    contrasenaT = request.POST['contrasena']
+    direccionT = request.POST['direccion']
+    telefonoT = request.POST['telefono']
+    pregT = request.POST['pregunta_seguridad']
+    rolT = request.POST['rol']
+
+    if User.objects.filter(email=correoT).exists():
+        return render(request, 'correo_registrado.html')
+    
+    user = User.objects.create_user(username = correoT,
+                                    email= correoT,
+                                    password= contrasenaT)
+    if rolT == 'Administrador':
+            user.is_staff = True  
+    else:
+            user.is_staff = False
+
+    
+    registroPreg = pregunta.objects.get(id_preg = pregT)
+    registroRol = rol.objects.get(id_rol=rolT)
+    
+    usuario.objects.create(rut_usu = rutT,nombre_usu = nombreT,correo_usu = correoT,
+                           contrasena_usu = contrasenaT,direccion_usu = direccionT,telefono_usu = telefonoT ,
+                           rol_usu = registroRol, id_preg = registroPreg)
+        
+    # Guardar el usuario para aplicar el cambio de is_staff
+    user.is_active = True
+    user.save()
+    return redirect('Vendedor')
+
+
+def agregarequipos(request):
+    nombreE = request.POST['nombre_equipo']
+    nombreP = request.POST['nombre_proyecto']
+    lider = request.POST['lider']
+    inte1 = request.POST['integrante1']
+    inte2 = request.POST['integrante2']
+    inte3 = request.POST['integrante3']
+
+    Registrolider = usuario.objects.get(id_usuario=lider)
+    Registrointe1 = usuario.objects.get(id_usuario=inte1)
+    Registrointe2 = usuario.objects.get(id_usuario=inte2)
+    Registrointe3 = usuario.objects.get(id_usuario=inte3)
+
+    equipo.objects.create(nombre_equipo=nombreE, nombre_proyecto=nombreP, lider_proyecto=Registrolider, integrante_1=Registrointe1, integrante_2=Registrointe2, integrante_3=Registrointe3)
+    
+    return redirect('mostrarequipos')
+

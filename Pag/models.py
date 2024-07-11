@@ -64,6 +64,15 @@ class detalle_abastecimiento (models.Model):
     id_abastecimiento = models.ForeignKey(abastecimiento,on_delete=models.CASCADE)
     id_prod = models.ForeignKey(producto,on_delete=models.CASCADE)
 
+class equipo(models.Model):
+    id_equipo = models.AutoField(primary_key=True)
+    nombre_equipo = models.CharField(max_length=100)
+    nombre_proyecto = models.CharField(max_length=100)
+    lider_proyecto = models.ForeignKey(usuario, on_delete=models.CASCADE, related_name='lidera_proyecto')
+    integrante_1 = models.ForeignKey(usuario, on_delete=models.CASCADE, related_name='equipo_integrante_1', null=False)
+    integrante_2 = models.ForeignKey(usuario, on_delete=models.SET_NULL, related_name='equipo_integrante_2', null=True, blank=True)
+    integrante_3 = models.ForeignKey(usuario, on_delete=models.SET_NULL, related_name='equipo_integrante_3', null=True, blank=True)
+
 
 class carrito(models.Model):
 	id_carrito = models.AutoField(primary_key = True)

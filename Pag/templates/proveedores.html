@@ -101,8 +101,8 @@
                                                                 <td>{{ provedor.telefono }}</td>
                                                                 <td>
                                                                     <button class="btn btn-danger">
-                                                                        <a href="">Eliminar</a>
-                                                                    </button>
+                                                                        <a href="{% url 'eliminarproveedor' provedor.id_prov %}">Eliminar</a>
+                                                                    </button>     
                                                                 </td>
                                                             </tr>
                                                             {% endfor %}
