@@ -1,9 +1,12 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/addproduct.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Agregar Equipo</title>
     <script>
         function actualizarSelects() {
@@ -18,69 +21,86 @@
                     integrante2.options[i].disabled = false;
                 }
             }
-            
+
             // Desactivar las opciones seleccionadas en integrante3
             var integrante3 = document.getElementById('integrante3');
             for (var j = 0; j < integrante3.options.length; j++) {
                 var optionValue = integrante3.options[j].value;
-                if (optionValue === integrante1 || optionValue === integrante2 ) {
-                    if(optionValue === integrante2){
+                if (optionValue === integrante1 || optionValue === integrante2) {
+                    if (optionValue === integrante2) {
                         integrante3.options[j].disabled = true;
                     } else {
-                    integrante3.options[j].disabled = false;
+                        integrante3.options[j].disabled = false;
                     }
-                } 
+                }
             }
         }
-        
+
         // Llamar a la función al cargar la página
-        window.onload = function() {
+        window.onload = function () {
             actualizarSelects();
         };
     </script>
 </head>
+
 <body>
-    <h1>Agregar Equipo</h1>
-    <form action="{% url 'agregarEquipos' %}" method="post">
-        {% csrf_token %}
-        
-        <label for="nombre_equipo">Nombre del equipo:</label>
-        <input type="text" id="nombre_equipo" name="nombre_equipo" required><br>
-        
-        <label for="nombre_proyecto">Nombre del proyecto:</label>
-        <input type="text" id="nombre_proyecto" name="nombre_proyecto" required><br>
-        
-        <label for="lider">Líder de equipo:</label>
-        <select id="lider" name="lider" required>
-            {% for usuario in usuarios_lideres %}
+    <header>
+        <nav id="cssmenu">
+            <ul>
+                <li>
+                    <a href="#">Inventario <i class="fas fa-chevron-down"></i></a>
+                    <ul>
+                        <li><a href="{% url 'Vendedor' %}">Ver inventario actual</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Agregar Equipo</h1>
+        <form action="{% url 'agregarEquipos' %}" method="post">
+            {% csrf_token %}
+
+            <label for="nombre_equipo">Nombre del equipo:</label>
+            <input type="text" id="nombre_equipo" name="nombre_equipo" required><br>
+
+            <label for="nombre_proyecto">Nombre del proyecto:</label>
+            <input type="text" id="nombre_proyecto" name="nombre_proyecto" required><br>
+
+            <label for="lider">Líder de equipo:</label>
+            <select id="lider" name="lider" required>
+                {% for usuario in usuarios_lideres %}
                 <option value="{{ usuario.id_usuario }}">{{ usuario.nombre_usu }}</option>
-            {% endfor %}
-        </select><br>
-        
-        <label for="integrante1">Integrante 1:</label>
-        <select id="integrante1" name="integrante1" onchange="actualizarSelects()" required>
-            {% for usuario in usuarios_integrantes %}
+                {% endfor %}
+            </select><br>
+
+            <label for="integrante1">Integrante 1:</label>
+            <select id="integrante1" name="integrante1" onchange="actualizarSelects()" required>
+                {% for usuario in usuarios_integrantes %}
                 <option value="{{ usuario.id_usuario }}">{{ usuario.nombre_usu }}</option>
-            {% endfor %}
-        </select><br>
-        
-        <label for="integrante2">Integrante 2:</label>
-        <select id="integrante2" name="integrante2" onchange="actualizarSelects()">
-            <option value="">--Opcional--</option>
-            {% for usuario in usuarios_integrantes %}
+                {% endfor %}
+            </select><br>
+
+            <label for="integrante2">Integrante 2:</label>
+            <select id="integrante2" name="integrante2" onchange="actualizarSelects()">
+                <option value="">--Opcional--</option>
+                {% for usuario in usuarios_integrantes %}
                 <option value="{{ usuario.id_usuario }}">{{ usuario.nombre_usu }}</option>
-            {% endfor %}
-        </select><br>
-        
-        <label for="integrante3">Integrante 3:</label>
-        <select id="integrante3" name="integrante3" onchange="actualizarSelects()">
-            <option value="">--Opcional--</option>
-            {% for usuario in usuarios_integrantes %}
+                {% endfor %}
+            </select><br>
+
+            <label for="integrante3">Integrante 3:</label>
+            <select id="integrante3" name="integrante3" onchange="actualizarSelects()">
+                <option value="">--Opcional--</option>
+                {% for usuario in usuarios_integrantes %}
                 <option value="{{ usuario.id_usuario }}">{{ usuario.nombre_usu }}</option>
-            {% endfor %}
-        </select><br>
-        
-        <button type="submit">Guardar Equipo</button>
-    </form>
+                {% endfor %}
+            </select><br>
+
+            <button type="submit">Guardar Equipo</button>
+        </form>
+    </div>
+    <br><br>
 </body>
+
 </html>
